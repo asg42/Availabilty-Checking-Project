@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import useProductApi from './ProductApi';
 import Customer from './Customer';
 
-function ProductListPage({ searchTerm }) {
-  const { storeName,  } = useParams();
+function ProductListPage() {
+  const { storeName, searchTerm } = useParams();
   const { allProducts, loading, error } = useProductApi();
 
   const filteredProducts = allProducts.filter(product => {
@@ -35,7 +35,7 @@ function ProductListPage({ searchTerm }) {
   }
 
   return (
-    <div className="mt-4">
+    <div className="container mt-4">
       <h2>Products for {storeName?.replace(/-/g, ' ')} matching "{searchTerm}"</h2>
       <Customer products={filteredProducts} />
     </div>

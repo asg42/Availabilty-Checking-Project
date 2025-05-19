@@ -8,15 +8,17 @@ const useProductApi = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  useEffect(() => {
+useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('https://dummyjson.com/products');
+        const response = await fetch('http://localhost:8000/api/products', {
+          method: 'GET', // Explicitly specify the GET method
+        });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setAllProducts(data.products);
+        setAllProducts(data);
         setLoading(false);
       } catch (err) {
         setError(err.message);

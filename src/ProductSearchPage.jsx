@@ -1,23 +1,13 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import SearchInput from './SearchInput';
-import useProductApi from './ProductApi';
+import { useParams } from 'react-router-dom';
 
-function ProductSearchPage({ onSearch, searchTerm }) {
-  const params = useParams();
-  const { storeName } = params;
-  const navigate = useNavigate();
-  const { allProducts } = useProductApi();
-
-  const handleSearchInternal = (query) => {
-    onSearch(query); // Update searchTerm in App.jsx
-    navigate(`/customer/stores/${storeName}/products/${query}`);
-  };
+function ProductSearchPage() {
+  const { storeName } = useParams();
 
   return (
-    <div>
+    <div className="container mt-4">
       <h2>Search Products for {storeName?.replace(/-/g, ' ')}</h2>
-      <SearchInput onSearch={handleSearchInternal} products={allProducts} />
+      {/* The search input is now in the TopBar */}
     </div>
   );
 }
