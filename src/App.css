@@ -5,6 +5,11 @@
   text-align: center;
 }
 
+.exceeds-stock {
+    border-color: red !important; /* Make border red */
+    box-shadow: 0 0 0 0.25rem rgba(255, 0, 0, 0.25) !important; /* Add a red glow */
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

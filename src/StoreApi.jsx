@@ -1,3 +1,4 @@
+// StoreApi.jsx
 import { useState, useEffect } from 'react';
 
 const useStoreApi = () => {
@@ -8,7 +9,8 @@ const useStoreApi = () => {
   useEffect(() => {
     const fetchStores = async () => {
       try {
-        const response = await fetch('https://dummyjson.com/c/92d7-cab9-494e-9a13');
+        // CHANGE THIS LINE TO YOUR NEW API ENDPOINT
+        const response = await fetch('https://dummyjson.com/c/f9bb-d03a-49ef-a9a9');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

@@ -1,17 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext.jsx';
 
 function TopBar({ websiteName, logo, stores, onStoreSelect, onSearch, allProducts }) {
   const navigate = useNavigate();
   const location = useLocation();
   const isCustomerRoute = location.pathname.startsWith('/customer');
-  const isStoreAdminRoute = location.pathname === '/admin/stores';
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   const [selectedStore, setSelectedStore] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const inputRef = useRef(null);
   const resultsRef = useRef(null);
+
+  const { isAuthenticated, isAdmin, logout } = useAuth();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -27,7 +31,7 @@ function TopBar({ websiteName, logo, stores, onStoreSelect, onSearch, allProduct
   }, []);
 
   useEffect(() => {
-    if (searchTerm && selectedStore && allProducts && allProducts.length > 0) {
+    if (isCustomerRoute && searchTerm && selectedStore && allProducts && allProducts.length > 0) {
       const lowerQuery = searchTerm.toLowerCase();
       const storeProducts = allProducts.filter(product => {
         return true;
@@ -43,7 +47,7 @@ function TopBar({ websiteName, logo, stores, onStoreSelect, onSearch, allProduct
       setSuggestions([]);
       setShowSuggestions(false);
     }
-  }, [searchTerm, selectedStore, allProducts]);
+  }, [searchTerm, selectedStore, allProducts, isCustomerRoute]);
 
   const handleStoreChange = (event) => {
     setSelectedStore(event.target.value);
@@ -61,14 +65,17 @@ function TopBar({ websiteName, logo, stores, onStoreSelect, onSearch, allProduct
     if (selectedStore && searchTerm) {
       const formattedStoreName = selectedStore.toLowerCase().replace(/ /g, '-');
       navigate(`/customer/stores/${formattedStoreName}/products/${searchTerm}`);
-      setShowSuggestions(false);
+      setShowSuggestions(false); // Ensure suggestions are hidden after any search submit
     }
   };
 
+  // MODIFIED handleSuggestionClick
   const handleSuggestionClick = (product) => {
-    setSearchTerm(product.title);
-    setShowSuggestions(false);
-    handleSearchSubmit();
+    const formattedStoreName = selectedStore.toLowerCase().replace(/ /g, '-');
+    // Directly navigate to the product list page with the selected product's title
+    navigate(`/customer/stores/${formattedStoreName}/products/${product.title}`);
+    setSearchTerm(product.title); // Update the input field with the chosen suggestion
+    setShowSuggestions(false); // Immediately hide suggestions
   };
 
   const goToHome = () => {
@@ -78,6 +85,11 @@ function TopBar({ websiteName, logo, stores, onStoreSelect, onSearch, allProduct
     if (onStoreSelect) {
       onStoreSelect('');
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/admin', { replace: true });
   };
 
   return (
@@ -95,7 +107,7 @@ function TopBar({ websiteName, logo, stores, onStoreSelect, onSearch, allProduct
             <li className="nav-item">
               <a className="nav-link" href="#" onClick={goToHome}>Home</a>
             </li>
-            {(isCustomerRoute || isStoreAdminRoute) && stores && (
+            {isCustomerRoute && stores && (
               <li className="nav-item">
                 <select
                   className="form-select"
@@ -135,19 +147,21 @@ function TopBar({ websiteName, logo, stores, onStoreSelect, onSearch, allProduct
               {showSuggestions && suggestions.length > 0 && (
                 <ul
                   ref={resultsRef}
-                  className="list-group position-absolute mt-1"
+                  className="list-group position-absolute"
                   style={{
                     zIndex: 1000,
                     width: 'calc(100% - 85px)',
                     maxHeight: '200px',
                     overflowY: 'auto',
+                    top: '100%',
+                    left: '0',
                   }}
                 >
                   {suggestions.map((product) => (
                     <li
                       key={product.id}
                       className="list-group-item list-group-item-action"
-                      onClick={() => handleSuggestionClick(product)}
+                      onClick={() => handleSuggestionClick(product)} // This calls the modified function
                       style={{ cursor: 'pointer' }}
                     >
                       {product.title}
@@ -156,6 +170,15 @@ function TopBar({ websiteName, logo, stores, onStoreSelect, onSearch, allProduct
                 </ul>
               )}
             </div>
+          )}
+          {isAdminRoute && isAuthenticated && isAdmin && (
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <button className="btn btn-outline-danger" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            </ul>
           )}
         </div>
       </div>

@@ -24,7 +24,7 @@ const Customer = ({ products }) => {
               <div className="card-body">
                 <h5 className="card-title">{product.title}</h5>
                 <p className="card-text">{product.description}</p>
-                <p className="card-text">Price: ${product.price}</p>
+                <p className="card-text">Price: ${product.price}</p> {/* Changed from $ to $ */}
                 <p className="card-text">Stock: {product.stock}</p>
                 <p className="card-text">Rating: {product.rating}</p>
               </div>
