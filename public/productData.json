@@ -1,4 +1,5 @@
-[
+{
+  "products": [
         {
             "id": 1,
             "title": "Essence Mascara Lash Princess",
@@ -1796,3 +1797,4 @@
             "thumbnail": "https://cdn.dummyjson.com/product-images/groceries/kiwi/thumbnail.webp"
         }
     ]
+}

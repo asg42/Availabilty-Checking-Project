@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'; // Import useNavigate here
 import StoreSearch from './StoreSearch';
 import ProductSearchPage from './ProductSearchPage';
 import ProductListPage from './ProductListPage';
@@ -11,10 +11,11 @@ import Home from './Home';
 import Admin from './Admin';
 import AdminStoreSearch from './AdminStoreSearch';
 import useProductApi from './ProductApi';
+import Billing from './Billing';
 
 function App() {
   const { stores, loading: loadingStores, error: errorStores } = useStoreApi();
-  const { allProducts, loading: loadingProducts, error: errorProducts } = useProductApi();
+  const { allProducts, loading: loadingProducts, error: errorProducts, handleSearch } = useProductApi();
   const [selectedStore, setSelectedStore] = useState('');
   const websiteName = "Check 'n' Go";
   const logo = "/images/logo.png";
@@ -24,7 +25,7 @@ function App() {
   };
 
   const handleProductSearch = (searchTerm) => {
-    // Handled in TopBar
+    handleSearch(searchTerm);
   };
 
   if (loadingStores || loadingProducts) {
@@ -79,6 +80,16 @@ function AppContent({ websiteName, logo, stores, onStoreSelect, onSearch, allPro
       <Route
         path="/admin/stores"
         element={<AdminStoreSearch websiteName={websiteName} logo={logo} stores={stores} />}
+      />
+      {/* New route for the billing page */}
+      <Route
+        path="/admin/stores/:storeName/billing"
+        element={
+          <>
+            <TopBar websiteName={websiteName} logo={logo} stores={stores} />
+            <Billing />
+          </>
+        }
       />
       <Route
         path="/customer/stores"
