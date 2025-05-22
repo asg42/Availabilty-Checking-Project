@@ -1,0 +1,24 @@
+# Node modules
+/backend/node_modules
+/frontend/availability-app/node_modules # Update path based on your exact structure
+
+# Environment variables
+/backend/.env
+/frontend/availability-app/.env # Update path based on your exact structure
+
+# Build outputs
+/frontend/availability-app/dist # For Vite projects
+#/frontend/availability-app/build # If you were using Create React App instead
+
+# VS Code specific files
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
