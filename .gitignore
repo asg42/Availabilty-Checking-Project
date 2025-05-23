@@ -1,24 +1,37 @@
 # Node modules
 /backend/node_modules
-/frontend/availability-app/node_modules # Update path based on your exact structure
+/frontend/availability-app/node_modules
 
 # Environment variables
 /backend/.env
-/frontend/availability-app/.env # Update path based on your exact structure
+/frontend/availability-app/.env
 
 # Build outputs
 /frontend/availability-app/dist # For Vite projects
 #/frontend/availability-app/build # If you were using Create React App instead
-
-# VS Code specific files
-.vscode/
+dist
+dist-ssr # From remote, useful for Vite
 
 # Logs
+logs # From remote
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log* # From remote
+lerna-debug.log* # From remote
 
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Editor directories and files (from remote, very useful)
+.vscode/*
+!.vscode/extensions.json # Keep extensions.json if you want to share recommended extensions
+.idea
+*.local # From remote, often for local config files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
