@@ -1,18 +1,62 @@
+// backend/models/Product.js
 const mongoose = require('mongoose');
 
-const productSchema = mongoose.Schema(
+const reviewSchema = new mongoose.Schema({
+    rating: { type: Number, min: 1, max: 5 },
+    comment: { type: String },
+    date: { type: Date, default: Date.now },
+    reviewerName: { type: String },
+    reviewerEmail: { type: String }
+}, { _id: true });
+
+
+const productSchema = new mongoose.Schema(
     {
-        id: { type: Number, unique: true },
-        title: { type: String, required: true },
-        description: { type: String },
-        category: { type: String },
-        price: { type: Number, required: true },
-        discountPercentage: { type: Number },
-        rating: { type: Number },
-        stock: { type: Number, required: true },
+        id: { // Your numeric, application-level ID
+            type: Number,
+            required: true,
+            unique: true,
+            index: true
+        },
+        title: {
+            type: String,
+            required: [true, 'Product title is required'],
+            trim: true
+        },
+        description: {
+            type: String,
+            trim: true
+        },
+        category: {
+            type: String,
+            trim: true
+        },
+        price: {
+            type: Number,
+            required: [true, 'Product price is required'],
+            min: [0, 'Price cannot be negative']
+        },
+        // discountPercentage field removed
+        rating: {
+            type: Number,
+            min: 0,
+            max: 5
+        },
+        stock: {
+            type: Number,
+            required: [true, 'Stock quantity is required'],
+            min: [0, 'Stock cannot be negative'],
+            default: 0
+        },
         tags: [String],
-        brand: { type: String },
-        sku: { type: String },
+        brand: {
+            type: String,
+            trim: true
+        },
+        sku: {
+            type: String,
+            trim: true,
+        },
         weight: { type: Number },
         dimensions: {
             width: { type: Number },
@@ -22,20 +66,14 @@ const productSchema = mongoose.Schema(
         warrantyInformation: { type: String },
         shippingInformation: { type: String },
         availabilityStatus: { type: String },
-        reviews: [
-            {
-                rating: { type: Number },
-                comment: { type: String },
-                date: { type: String },
-                reviewerName: { type: String },
-                reviewerEmail: { type: String }
-            }
-        ],
+        reviews: [reviewSchema],
         returnPolicy: { type: String },
-        minimumOrderQuantity: { type: Number },
+        minimumOrderQuantity: {
+            type: Number,
+            min: 1,
+            default: 1
+        },
         meta: {
-            createdAt: { type: String },
-            updatedAt: { type: String },
             barcode: { type: String },
             qrCode: { type: String }
         },
@@ -44,9 +82,9 @@ const productSchema = mongoose.Schema(
     },
     {
         timestamps: true,
-        collection: 'productInfo' // THIS IS CRUCIAL
+        collection: 'productInfo'
     }
 );
 
-const Product = mongoose.model('Product', productSchema); // No third arg here if 'collection' is in schema options
+const Product = mongoose.model('Product', productSchema);
 module.exports = Product;

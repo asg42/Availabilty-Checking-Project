@@ -6,6 +6,9 @@
 /backend/.env
 /frontend/availability-app/.env
 
+#Extras
+/Backup
+
 # Build outputs
 /frontend/availability-app/dist # For Vite projects
 #/frontend/availability-app/build # If you were using Create React App instead
