@@ -51,7 +51,7 @@ const userInfoSchema = new mongoose.Schema({
     storeName: String // The field you added
 }, {
     timestamps: true, // Adds createdAt and updatedAt timestamps
-    collection: 'usersinfo' // Explicitly set the collection name
+    collection: 'usersInfo' // Explicitly set the collection name
 });
 
 const UserInfo = mongoose.model('UserInfo', userInfoSchema);
