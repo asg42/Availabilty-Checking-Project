@@ -31,7 +31,7 @@ return { stores, loading, error };
 
 export const fetchAllStores = async () => { // ADD 'export' here for named export
 try {
-const response = await fetch('http://localhost:8000/api/stores', { // Assuming your stores API endpoint
+const response = await fetch('/api/stores', { // Assuming your stores API endpoint
 method: 'GET',
 });
 if (!response.ok) {

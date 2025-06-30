@@ -85,9 +85,9 @@ function Billing({ stores }) { // 'stores' prop is now received
                 // IF your backend /api/products supports filtering by a 'store' query parameter.
                 // If products are not store-specific, then `&store=${selectedStoreName}` might not be needed
                 // or the backend needs to handle it gracefully.
-                const response = await fetch(`http://localhost:8000/api/products?search=${newSearchTerm}`);
+                const response = await fetch(`/api/products?search=${newSearchTerm}`);
                 // If your backend filters by store:
-                // const response = await fetch(`http://localhost:8000/api/products?search=${newSearchTerm}&store=${selectedStoreName}`);
+                // const response = await fetch(`/api/products?search=${newSearchTerm}&store=${selectedStoreName}`);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const data = await response.json();
                 if (Array.isArray(data)) {
@@ -206,7 +206,7 @@ function Billing({ stores }) { // 'stores' prop is now received
             try {
                 // Fetch current product data (using its MongoDB _id for the GET request)
                 // Your GET /api/products/:_id should not require store context unless _id isn't globally unique.
-                const response = await fetch(`http://localhost:8000/api/products/${product._id}`);
+                const response = await fetch(`/api/products/${product._id}`);
                 if (!response.ok) throw new Error(`Failed to fetch product ${product.title}. Status: ${response.status}`);
                 const currentProductData = await response.json();
 
@@ -219,7 +219,7 @@ function Billing({ stores }) { // 'stores' prop is now received
                 // Update product stock (using its MongoDB _id for the PUT request)
                 // The payload for PUT should be just the fields to update, e.g., { stock: newStock }
                 // or the full product object with the new stock value.
-                const updateResponse = await fetch(`http://localhost:8000/api/products/${product._id}`, {
+                const updateResponse = await fetch(`/api/products/${product._id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ ...currentProductData, stock: newStock }), // Send full object or just {stock: newStock}

@@ -3,7 +3,7 @@
 // Check admin credentials (no JWT, no tokens)
 export const checkCredentials = async (identifier, password) => {
   try {
-    const response = await fetch('http://localhost:8000/api/users');
+    const response = await fetch('/api/users');
     if (!response.ok) throw new Error('Failed to fetch users');
     const users = await response.json();
     const foundUser = users.find(
@@ -22,14 +22,14 @@ export const checkCredentials = async (identifier, password) => {
 
 // Fetch products (no token needed)
 export const fetchProducts = async () => {
-  const response = await fetch('http://localhost:8000/api/products');
+  const response = await fetch('/api/products');
   if (!response.ok) throw new Error('Error fetching products');
   return await response.json();
 };
 
 // Create product (no token needed)
 export const createProduct = async (productData) => {
-  const response = await fetch('http://localhost:8000/api/products', {
+  const response = await fetch('/api/products', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(productData)
@@ -40,7 +40,7 @@ export const createProduct = async (productData) => {
 
 // Update product (no token needed)
 export const updateProduct = async (productId, updateData) => {
-  const response = await fetch(`http://localhost:8000/api/products/${productId}`, {
+  const response = await fetch(`/api/products/${productId}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updateData)
@@ -51,7 +51,7 @@ export const updateProduct = async (productId, updateData) => {
 
 // Delete product (no token needed)
 export const deleteProduct = async (productId) => {
-  const response = await fetch(`http://localhost:8000/api/products/${productId}`, {
+  const response = await fetch(`/api/products/${productId}`, {
     method: 'DELETE'
   });
   if (!response.ok) throw new Error('Error deleting product');
